@@ -24,3 +24,10 @@ npm run dev
 
 Tri : `sort=createdAt` ou `sort=-deadline` (le `-` = ordre décroissant).
 Header : `Authorization: Bearer <token>`
+
+## Exemples de requêtes
+- Inscription : POST /api/auth/register  {"nom":"Ali","login":"ali","motDePasse":"123456"}
+- Connexion : POST /api/auth/login  {"login":"ali","motDePasse":"123456"}
+- Projet : POST /api/projects  {"nom":"Projet 1"}
+- Tâche : POST /api/projects/:projectId/tasks  {"titre":"T1","deadline":"2026-12-01"}
+- Affectation (manager) : PATCH /api/tasks/:id/assign  {"utilisateurId":"..."}

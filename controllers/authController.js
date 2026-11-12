@@ -32,4 +32,16 @@ exports.login = async (req, res, next) => {
       user: { id: user._id, nom: user.nom, login: user.login, role: user.role }
     });
   } catch (err) { next(err); }
+
+
+};
+  
+// GET /api/auth/me نرجّعو معلومات المستخدم المسجّل دخولو
+exports.me = (req, res) => {
+  res.json({
+    id: req.user._id,
+    nom: req.user.nom,
+    login: req.user.login,
+    role: req.user.role
+  });
 };

@@ -76,3 +76,19 @@ exports.deleteProject = async (req, res, next) => {
     res.json({ message: 'Projet supprimé' });
   } catch (err) { next(err); }
 };
+
+// GET /api/projects/:id/stats — عدد التاسكات حسب الحالة
+exports.getProjectStats = async (req, res, next) => {
+  try {
+    const project = await Project.findById(req.params.id);
+    if (!project) return res.status(404).json({ message: 'Projet introuvable' });
+    if (!canAccess(project, req.user)) return res.status(403).json({ message: 'Accès refusé' });
+
+    // نعدّو التاسكات لكل حالة
+    const todo = await Task.countDocuments({ projet: project._id, statut: 'todo' });
+    const doing = await Task.countDocuments({ projet: project._id, statut: 'doing' });
+    const done = await Task.countDocuments({ projet: project._id, statut: 'done' });
+
+    res.json({ projet: project.nom, todo, doing, done, total: todo + doing + done });
+  } catch (err) { next(err); }
+};
